@@ -1,4 +1,4 @@
-import keras.backend as K
+from tensorflow.keras import backend as K
 import tensorflow as tf
 from keras import initializers, layers
 
@@ -53,7 +53,7 @@ class CapsuleLayer(layers.Layer):
         self.kernel_initializer = initializers.get(kernel_initializer)
 
     def build(self, input_shape):
-        assert len(input_shape) >= 3, 
+        assert len(input_shape) >= 3
         self.input_num_capsule = input_shape[1]
         self.input_dim_capsule = input_shape[2]
 
@@ -70,10 +70,10 @@ class CapsuleLayer(layers.Layer):
         inputs_hat = K.map_fn(lambda x: K.batch_dot(x, self.W, [2, 3]), elems=inputs_tiled)
         b = tf.zeros(shape=[K.shape(inputs_hat)[0], self.num_capsule, self.input_num_capsule])
 
-        assert self.routings > 0, 
+        assert self.routings > 0
         for i in range(self.routings):
             
-            c = tf.nn.softmax(b, dim=1)
+            c = tf.nn.softmax(b, axis=1)
             outputs = squash(K.batch_dot(c, inputs_hat, [2, 2]))  # [None, 10, 16]
 
             if i < self.routings - 1:
