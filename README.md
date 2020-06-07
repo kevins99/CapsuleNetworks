@@ -1,2 +1,2 @@
 # CapsuleNetworks
-Capsule Networks for Biomedical tasks
+Simple classification CapsNet.
